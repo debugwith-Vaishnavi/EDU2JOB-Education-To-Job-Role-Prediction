@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Edu2Job — Profile (Final)</title>
+
+  <style>
+    :root{
+      --bg:#0f1724;
+      --card:#13203b;
+      --text:#eaf4ff;
+      --primary:#6c8bff;
+      --primary-glow:#6c8bff33;
+      --muted:#9aa6c2;
+      --glass: rgba(255,255,255,0.04);
+      --accent-cta: linear-gradient(90deg,#6c8bff,#9a6bff);
+    }
+
+    html,body{
+      height:100%;
+      margin:0;
+      font-family: Inter, Poppins, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue";
+      background: linear-gradient(120deg,#0f1724,#1b2a44 100%);
+      color:var(--text);
+    }
+
+    /* Top bar */
+    .topbar{
+      max-width:1280px;
+      margin:14px auto;
+      padding:12px 22px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+    }
+    .brand{font-weight:900;color:#cfe8ff;font-size:20px}
+    .links{display:flex;gap:12px;align-items:center}
+    .links a{color:#d7e8ff;text-decoration:none;font-weight:700}
+    #darkToggle{cursor:pointer;padding:8px;border-radius:10px;background:#ffffff12;border:1px solid rgba(255,255,255,0.04)}
+
+    /* Page layout */
+    .wrap{
+      max-width:1280px;
+      margin:18px auto;
+      padding:22px;
+      display:flex;
+      gap:22px;
+      align-items:flex-start;
+    }
+
+    /* Left panel */
+    .left{
+      width:300px;
+      background:var(--glass);
+      padding:22px;
+      border-radius:16px;
+      backdrop-filter: blur(10px);
+      border:1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 10px 34px rgba(0,0,0,0.5);
+    }
+    .avatar{
+      width:120px;height:120px;border-radius:50%;
+      margin:6px auto;background:linear-gradient(135deg,#576bff,#8a3bff);
+      display:flex;align-items:center;justify-content:center;font-size:48px;color:white;
+      box-shadow:0 12px 40px rgba(82,90,255,0.25);
+      animation:pop .45s ease;
+    }
+    @keyframes pop{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
+    .meta{text-align:center;margin-top:12px}
+    .meta h3{margin:6px 0 0 0;font-size:20px}
+    .meta p{margin:4px 0;font-size:13px;color:var(--muted)}
+    .quick{margin-top:18px;background:rgba(255,255,255,0.02);padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+    .quick p{margin:8px 0;font-weight:700;color:#dff7ff;display:flex;justify-content:space-between;align-items:center}
+    .left-buttons{display:flex;gap:8px;margin-top:14px;flex-direction:column}
+    .left-buttons button{background:transparent;color:#cfe8ff;border:1px solid rgba(255,255,255,0.06);padding:10px;border-radius:10px;cursor:pointer;font-weight:800}
+    .left-buttons button:hover{transform:translateY(-3px);box-shadow:0 6px 20px var(--primary-glow)}
+
+    /* Right panel */
+    .right{
+      flex:1;
+      background:var(--glass);
+      padding:24px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,0.06);
+      box-shadow:0 10px 34px rgba(0,0,0,0.5);
+      animation:fadeUp .35s ease;
+    }
+    @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+    details{background:transparent;padding:12px;border-radius:12px;margin-bottom:12px;border:1px solid rgba(255,255,255,0.03)}
+    summary{font-weight:900;font-size:16px;color:var(--primary);cursor:pointer;list-style:none;margin-bottom:10px}
+    .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+    .full{grid-column:1/3}
+    label{display:block;margin-bottom:6px;font-size:13px;color:var(--muted)}
+    input,select,textarea{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:#ffffff12;color:var(--text);font-size:14px}
+    textarea{min-height:80px;resize:vertical}
+    select.dropdown{appearance:none;padding-right:36px;background-image:linear-gradient(45deg, transparent 50%, var(--primary) 50%), linear-gradient(135deg,var(--primary) 50%, transparent 50%);background-position:calc(100% - 18px) 14px, calc(100% - 12px) 14px;background-size:6px 6px,6px 6px;background-repeat:no-repeat}
+    .actions{display:flex;gap:10px;justify-content:flex-end;margin-top:12px}
+    .btn{padding:10px 14px;border-radius:10px;border:none;background:var(--accent-cta);color:#001;font-weight:800;cursor:pointer;box-shadow:0 8px 28px var(--primary-glow)}
+    .btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);color:#dff7ff}
+
+    /* Multi-select dropdown */
+    .multi-box{
+      background:#ffffff10;color:#eaf4ff;border-radius:10px;padding:10px 12px;cursor:pointer;position:relative;border:1px solid rgba(255,255,255,0.06);
+    }
+    .multi-dropdown{
+      position:relative;margin-top:6px;background:#0d1a35;border-radius:10px;padding:10px;border:1px solid rgba(255,255,255,0.04);
+      display:none;max-height:170px;overflow:auto;
+    }
+    .multi-item{display:flex;align-items:center;gap:10px;padding:6px 4px;border-radius:8px}
+    .multi-item:hover{background:#ffffff06}
+
+    /* small screens */
+    @media (max-width:900px){
+      .wrap{flex-direction:column;padding:12px}
+      .left{width:100%}
+      .right{width:100%}
+      .grid{grid-template-columns:1fr}
+      .full{grid-column:1/2}
+    }
+    /* ===== Dropdown menu same as input fields ===== */
+
+/* dropdown open झाल्यावर options */
+select option{
+  background: rgba(255,255,255,0.08) !important; /* same as input */
+  color: #eaf4ff !important;
+}
+
+/* hover */
+select option:hover{
+  background: rgba(255,255,255,0.15) !important;
+  color:#ffffff !important;
+}
+
+/* selected option */
+select option:checked{
+  background: rgba(255,255,255,0.2) !important;
+  color:#ffffff !important;
+}
+/* ========= FIX ALL DROPDOWNS (OPEN STATE) ========= */
+
+select{
+  background-color: #ffffff12;
+  color: #eaf4ff;
+}
+
+/* dropdown open options */
+select option{
+  background-color: #1b2a44 !important;  /* dark */
+  color: #eaf4ff !important;
+}
+
+/* hover option */
+select option:hover{
+  background-color: #24345d !important;
+  color: #ffffff !important;
+}
+
+/* selected row */
+select option:checked{
+  background-color: #31489c !important;
+  color: #ffffff !important;
+}
+
+
+  </style>
+</head>
+<body>
+  <!-- TOP BAR (with logout) -->
+  <div class="topbar">
+    <div class="brand">Edu2Job</div>
+    <div class="links" role="navigation" aria-label="main links">
+      <a href="dashboard.html">Home</a>
+      <a href="profile.html">Profile</a>
+      <a href="predict.html">Predict</a>
+      <a href="history.html">History</a>
+      <a href="#" id="logoutLink">Logout</a>
+    </div>
+    <!--<div id="darkToggle" title="Toggle theme">🌙</div>-->
+  </div>
+
+  <div class="wrap">
+    <!-- LEFT -->
+    <div class="left" aria-hidden="false">
+      <div class="avatar" id="avatarIcon">👤</div>
+      <div class="meta">
+        <h3 id="leftName">User Name</h3>
+        <p id="leftEmail">user@example.com</p>
+      </div>
+
+      <div class="quick" aria-live="polite" aria-atomic="true">
+        <p>Skills <span id="skillCount">0</span></p>
+        <p>Experience <span id="expCount">0</span></p>
+        <p>Certifications <span id="certCount">0</span></p>
+      </div>
+
+      <div class="left-buttons" role="toolbar">
+        <button id="btnProduction" title="Open production requirements">🔧 Production Requirements</button>
+        <button id="btnPersonal" title="Open personal details">👤 Personal Details</button>
+      </div>
+    </div>
+
+    <!-- RIGHT: FORM -->
+    <div class="right" id="rightPanel" role="main">
+      <!-- Personal -->
+      <details id="personalDetails" open>
+        <summary>👤 Personal</summary>
+        <div class="grid">
+          <div><label for="firstName">First Name</label><input id="firstName" placeholder="First name" /></div>
+          <div><label for="lastName">Last Name</label><input id="lastName" placeholder="Last name" /></div>
+          <div><label for="phone">Phone</label><input id="phone" placeholder="+91 98xxxx" /></div>
+          <div><label for="age">Age</label><input id="age" type="number" placeholder="Age" /></div>
+          <div><label for="gender">Gender</label>
+            <select id="gender" class="dropdown"><option value="">Select Gender</option><option>Female</option><option>Male</option><option>Other</option></select>
+          </div>
+          <div class="full"><label for="address">Address</label><textarea id="address" placeholder="Full address"></textarea></div>
+        </div>
+      </details>
+
+      <!-- Professional -->
+      <details id="professionalDetails">
+        <summary>💼 Professional</summary>
+        <div class="grid">
+          <div><label for="username">Username</label><input id="username" placeholder="Auto (email used as username)" /></div>
+          <div><label for="emailField">Email</label><input id="emailField" type="email" placeholder="you@domain.com" /></div>
+          <div><label for="employmentStatus">Employment Status</label>
+            <select id="employmentStatus" class="dropdown"><option value="">Select status</option><option>Fresher</option><option>Experienced</option><option>Intern</option></select>
+          </div>
+          <div><label for="company">Company</label><input id="company" placeholder="Company name" /></div>
+          <div><label for="jobRole">Job Role</label><input id="jobRole" placeholder="Current job role" /></div>
+          <div><label for="totalExp">Total Experience (years)</label><input id="totalExp" type="number" placeholder="e.g. 2" /></div>
+        </div>
+      </details>
+
+      <!-- Academic -->
+      <details id="academicDetails">
+        <summary>🏫 Academic</summary>
+        <div style="margin-top:8px">
+          <h4 style="color:var(--primary);margin-bottom:8px">10th</h4>
+          <div class="grid">
+            <div><label for="sch10">School Name</label><input id="sch10" placeholder="10th school" /></div>
+            <div><label for="board10">Board</label><input id="board10" placeholder="CBSE / SSC / ICSE" /></div>
+            <div><label for="year10">Passed Out Year</label><select id="year10" class="dropdown"><option value="">Year</option></select></div>
+          </div>
+
+          <h4 style="color:var(--primary);margin-top:12px;margin-bottom:8px">12th / Diploma</h4>
+          <div class="grid">
+            <div><label for="inst12">Institute Name</label><input id="inst12" placeholder="College / Institute" /></div>
+            <div><label for="board12">Board / University</label><input id="board12" placeholder="Board / University" /></div>
+            <div><label for="year12">Passed Out Year</label><select id="year12" class="dropdown"><option value="">Year</option></select></div>
+          </div>
+
+          <h4 style="color:var(--primary);margin-top:12px;margin-bottom:8px">Undergraduate</h4>
+          <div class="grid">
+            <div><label for="ugUni">University Name</label><input id="ugUni" placeholder="University name" /></div>
+            <div><label for="ugYear">Graduation Year</label><select id="ugYear" class="dropdown"><option value="">Year</option></select></div>
+          </div>
+        </div>
+      </details>
+
+      <!-- SKILLS (multi-select) -->
+      <details id="skillsDetails">
+        <summary>🧠 Skills & Preferences</summary>
+
+        <div class="full">
+          <label>Technical Skills</label>
+          <div class="multi-box" id="skillsBox" role="button" aria-haspopup="listbox" aria-expanded="false">Select Skills</div>
+          <div class="multi-dropdown" id="skillsDropdown" role="listbox" aria-label="Select skills">
+            <label class="multi-item"><input type="checkbox" value="HTML"> HTML</label>
+            <label class="multi-item"><input type="checkbox" value="CSS"> CSS</label>
+            <label class="multi-item"><input type="checkbox" value="JavaScript"> JavaScript</label>
+            <label class="multi-item"><input type="checkbox" value="React"> React</label>
+            <label class="multi-item"><input type="checkbox" value="Python"> Python</label>
+            <label class="multi-item"><input type="checkbox" value="Figma"> Figma</label>
+            <label class="multi-item"><input type="checkbox" value="Photoshop"> Photoshop</label>
+            <label class="multi-item"><input type="checkbox" value="Canva"> Canva</label>
+          </div>
+        </div>
+
+        <div class="full" style="margin-top:10px">
+          <label>Certifications</label>
+          <div class="multi-box" id="certsBox" role="button" aria-haspopup="listbox" aria-expanded="false">Select Certifications</div>
+          <div class="multi-dropdown" id="certsDropdown" role="listbox" aria-label="Select certifications">
+            <label class="multi-item"><input type="checkbox" value="AWS"> AWS</label>
+            <label class="multi-item"><input type="checkbox" value="Google"> Google</label>
+            <label class="multi-item"><input type="checkbox" value="Azure"> Azure</label>
+            <label class="multi-item"><input type="checkbox" value="UI/UX"> UI/UX</label>
+            <label class="multi-item"><input type="checkbox" value="Data Science"> Data Science</label>
+            <label class="multi-item"><input type="checkbox" value="Agile"> Agile</label>
+          </div>
+        </div>
+
+        <div style="margin-top:12px" class="grid">
+          <div><label for="prefIndustry">Preferred Industry</label>
+            <select id="prefIndustry" class="dropdown"><option value="">Select Industry</option><option>UI/UX</option><option>Graphic Design</option><option>Software</option><option>Data Science</option><option>Cloud</option><option>Other</option></select>
+          </div>
+          <div><label for="otherIndustryField">Other (if selected)</label><input id="otherIndustryField" placeholder="Enter industry" /></div>
+        </div>
+
+      </details>
+
+      <!-- Additional -->
+      <details id="additionalDetails">
+        <summary>📎 Additional</summary>
+        <div class="grid">
+          <div><label for="linkedin">LinkedIn</label><input id="linkedin" placeholder="LinkedIn profile URL" /></div>
+          <div><label for="github">GitHub</label><input id="github" placeholder="GitHub profile URL" /></div>
+        </div>
+      </details>
+
+      <div class="actions">
+        <button id="saveBtn" class="btn">Save Profile</button>
+        <button id="resetBtn" class="btn secondary">Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ---------- KEYS ---------- */
+    const LS_KEY = 'edu2job_profile_final_v1';
+    const THEME_KEY = 'edu2job_theme_v1';
+
+    /* ---------- YEAR POPULATION ---------- */
+    const yearSelects = [document.getElementById('year10'), document.getElementById('year12'), document.getElementById('ugYear')];
+    const now = new Date().getFullYear();
+    for(let y=now; y>=1980; y--){
+      yearSelects.forEach(s => s.insertAdjacentHTML('beforeend', `<option>${y}</option>`));
+    }
+
+    /* ---------- ELEMENT SHORTCUTS ---------- */
+    const saveBtn = document.getElementById('saveBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const darkToggle = document.getElementById('darkToggle');
+    const logoutLink = document.getElementById('logoutLink');
+
+    const leftName = document.getElementById('leftName');
+    const leftEmail = document.getElementById('leftEmail');
+    const skillCount = document.getElementById('skillCount');
+    const expCount = document.getElementById('expCount');
+    const certCount = document.getElementById('certCount');
+
+    // quick groups
+    const personalDetails = document.getElementById('personalDetails');
+    const professionalDetails = document.getElementById('professionalDetails');
+    const academicDetails = document.getElementById('academicDetails');
+    const skillsDetails = document.getElementById('skillsDetails');
+    const additionalDetails = document.getElementById('additionalDetails');
+
+    /* ---------- MULTI-SELECT SETUP ---------- */
+    function setupMulti(boxId, dropId){
+      const box = document.getElementById(boxId);
+      const drop = document.getElementById(dropId);
+
+      // toggle dropdown
+      box.onclick = (e) => {
+        e.stopPropagation();
+        const showing = drop.style.display === 'block';
+        drop.style.display = showing ? 'none' : 'block';
+        box.setAttribute('aria-expanded', (!showing).toString());
+      };
+
+      // update display on change
+      const inputs = drop.querySelectorAll('input[type="checkbox"]');
+      inputs.forEach(cb => cb.addEventListener('change', () => {
+        const selected = [...drop.querySelectorAll('input:checked')].map(n => n.value);
+        box.textContent = selected.length ? selected.join(', ') : (boxId === 'skillsBox' ? 'Select Skills' : 'Select Certifications');
+      }));
+
+      // click outside to close
+      document.addEventListener('click', (e) => {
+        if(!box.contains(e.target) && !drop.contains(e.target)){
+          drop.style.display = 'none';
+          box.setAttribute('aria-expanded','false');
+        }
+      });
+
+      return {
+        get: () => [...drop.querySelectorAll('input:checked')].map(n => n.value),
+        set: arr => {
+          inputs.forEach(cb => cb.checked = arr.includes(cb.value));
+          box.textContent = arr.length ? arr.join(', ') : (boxId === 'skillsBox' ? 'Select Skills' : 'Select Certifications');
+        }
+      };
+    }
+
+    const skillsSelect = setupMulti('skillsBox','skillsDropdown');
+    const certsSelect  = setupMulti('certsBox','certsDropdown');
+
+    /* ---------- LOAD PROFILE ---------- */
+    function loadProfile(){
+      let p = {};
+      try{ p = JSON.parse(localStorage.getItem(LS_KEY)) || {}; } catch(e){ p = {}; }
+
+      const fields = ['firstName','lastName','phone','age','gender','address','username','emailField','employmentStatus','company','jobRole','totalExp','sch10','board10','year10','inst12','board12','year12','ugUni','ugYear','prefIndustry','otherIndustryField','linkedin','github'];
+      fields.forEach(k => {
+        const el = document.getElementById(k);
+        if(el) el.value = p[k] || '';
+      });
+
+      // Multi selects
+      skillsSelect.set(p.skills || []);
+      certsSelect.set(p.certs || []);
+
+      // left summary
+      leftName.textContent = `${p.firstName || ''} ${p.lastName || ''}`.trim() || 'User Name';
+      leftEmail.textContent = p.emailField || 'user@example.com';
+      skillCount.textContent = (p.skills || []).length;
+      certCount.textContent = (p.certs || []).length;
+      expCount.textContent = p.totalExp || 0;
+    }
+
+    /* ---------- SAVE PROFILE ---------- */
+    saveBtn.addEventListener('click', () => {
+      const fields = ['firstName','lastName','phone','age','gender','address','username','emailField','employmentStatus','company','jobRole','totalExp','sch10','board10','year10','inst12','board12','year12','ugUni','ugYear','prefIndustry','otherIndustryField','linkedin','github'];
+      const p = {};
+      fields.forEach(k => {
+        const el = document.getElementById(k);
+        if(el) p[k] = el.value;
+      });
+      p.skills = skillsSelect.get();
+      p.certs  = certsSelect.get();
+
+      localStorage.setItem(LS_KEY, JSON.stringify(p));
+
+      // update left
+      leftName.textContent = `${p.firstName || ''} ${p.lastName || ''}`.trim() || 'User Name';
+      leftEmail.textContent = p.emailField || 'user@example.com';
+      skillCount.textContent = p.skills.length;
+      certCount.textContent = p.certs.length;
+      expCount.textContent = p.totalExp || 0;
+
+      toast('Profile saved');
+    });
+
+    /* ---------- RESET ---------- */
+    resetBtn.addEventListener('click', () => {
+      if(confirm('Reset form to last saved values?')) loadProfile();
+    });
+
+    /* ---------- THEME TOGGLE ---------- */
+   /* function setTheme(theme){
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem(THEME_KEY, theme);
+      darkToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
+    }
+    darkToggle.addEventListener('click', () => {
+      const cur = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+      setTheme(cur === 'dark' ? 'light' : 'dark');
+    });
+    // initial theme
+    (function(){
+      const saved = localStorage.getItem(THEME_KEY) || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'dark');
+      setTheme(saved);
+    })();*/
+
+    /* ---------- QUICK NAV BUTTONS ---------- */
+    document.getElementById('btnPersonal').addEventListener('click', () => {
+      personalDetails.open = true;
+      professionalDetails.open = true;
+      academicDetails.open = false;
+      skillsDetails.open = false;
+      additionalDetails.open = false;
+      personalDetails.scrollIntoView({behavior:'smooth'});
+    });
+    document.getElementById('btnProduction').addEventListener('click', () => {
+      personalDetails.open = false;
+      professionalDetails.open = false;
+      academicDetails.open = true;
+      skillsDetails.open = true;
+      additionalDetails.open = false;
+      academicDetails.scrollIntoView({behavior:'smooth'});
+    });
+
+    /* ---------- LOGOUT ---------- */
+    logoutLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      // Remove auth tokens (if you store) and redirect to login
+      localStorage.removeItem('access_token');
+      toast('Logged out');
+      setTimeout(() => { window.location.href = 'login.html'; }, 600);
+    });
+
+    /* ---------- TOAST ---------- */
+    function toast(msg){
+      const d = document.createElement('div');
+      d.textContent = msg;
+      Object.assign(d.style, {
+        position:'fixed', right:'18px', bottom:'18px',
+        background:'rgba(0,0,0,0.75)', color:'#fff', padding:'10px 14px',
+        borderRadius:'8px', zIndex:9999, fontWeight:700
+      });
+      document.body.appendChild(d);
+      setTimeout(()=> d.remove(), 1400);
+    }
+
+    /* ---------- HANDLE PREF INDUSTRY FIELD ---------- */
+    const prefIndustry = document.getElementById('prefIndustry');
+    const otherIndustryField = document.getElementById('otherIndustryField');
+    function handleOtherIndustry(){
+      otherIndustryField.style.display = (prefIndustry.value === 'Other') ? 'block' : 'none';
+      if(prefIndustry.value !== 'Other') otherIndustryField.value = '';
+    }
+    prefIndustry.addEventListener('change', handleOtherIndustry);
+
+    /* ---------- INITIAL LOAD ---------- */
+    window.addEventListener('DOMContentLoaded', loadProfile);
+  </script>
+</body>
+</html>
