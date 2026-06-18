@@ -31,6 +31,7 @@ def result_page(request):
     return render(request, "result.html")
 
 
+
 urlpatterns = [
     path('', home, name='home'),
     path('register/', register_page, name='register'),
