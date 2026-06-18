@@ -1,12 +1,12 @@
 from django.contrib import admin
 from django.urls import path, include
-from django.http import HttpResponse
+from django.shortcuts import render
 
 def home(request):
-    return HttpResponse("Edu2Job API is Running Successfully!")
+    return render(request, "login.html")
 
 urlpatterns = [
-    path('', home),
+    path('', home, name='home'),
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
 ]
