@@ -9,16 +9,36 @@
 
 <script>
 async function logout(){
+
   const refresh = localStorage.getItem('refresh');
-  const token = localStorage.getItem('access');
-  if(!token){ location.href='/index.html'; return; }
-  const res = await fetch('/api/logout/', {
-    method:'POST',
-    headers:{ 'Content-Type':'application/json', 'Authorization':'Bearer '+token },
-    body: JSON.stringify({ refresh })
-  });
-  localStorage.removeItem('access'); localStorage.removeItem('refresh');
-  location.href = '/index.html';
+
+  const token =
+    localStorage.getItem('token') ||
+    localStorage.getItem('access') ||
+    localStorage.getItem('access_token');
+
+  if(!token){
+    location.href='/';
+    return;
+  }
+
+  try{
+    await fetch('/api/logout/', {
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'Authorization':'Bearer '+token
+      },
+      body: JSON.stringify({ refresh })
+    });
+  }catch(e){
+    console.log(e);
+  }
+
+  localStorage.clear();
+  sessionStorage.clear();
+
+  location.href='/';
 }
 </script>
 </body>

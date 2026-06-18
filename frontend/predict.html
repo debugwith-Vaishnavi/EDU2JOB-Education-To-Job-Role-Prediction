@@ -120,11 +120,11 @@
     </div>
 
     <div class="nav-links">
-      <a href="dashboard.html">Home</a>
-      <a href="profile.html">Profile</a>
-      <a href="predict.html" style="color:white;font-weight:900;">Predict</a>
-      <a href="history.html">History</a>
-      <a href="login.html" onclick="logout()">Logout</a>
+      <a href="/dashboard/">Home</a>
+<a href="/profile/">Profile</a>
+<a href="/predict/">Predict</a>
+<a href="/history/">History</a>
+<a href="/" onclick="logout()">Logout</a>
     </div>
   </div>
 
@@ -209,12 +209,14 @@
   </div>
 
 <script>
-const API = "http://127.0.0.1:8000/api/";
-const token = localStorage.getItem("access") || localStorage.getItem("access_token") || localStorage.getItem("token");
-
+const API = "/api/";
+const token =
+  localStorage.getItem("token") ||
+  localStorage.getItem("access") ||
+  localStorage.getItem("access_token");
 if(!token){
   alert("Login required");
-  window.location.href="login.html";
+  window.location.href="/";
 }
 
 function logout(){
@@ -283,7 +285,7 @@ document.getElementById('predictBtn').addEventListener('click', async ()=>{
     }
 
     sessionStorage.setItem('edu2job_prediction', JSON.stringify(data));
-    window.location.href="result.html";
+    window.location.href="/result/";
 
   }catch(e){
     console.error(e);

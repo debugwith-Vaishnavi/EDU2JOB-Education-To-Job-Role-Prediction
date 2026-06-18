@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Edu2Job — Dashboard</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Edu2Job — Dashboard</title>
+
 <style>
   body{font-family:Poppins,Inter;margin:0;background:linear-gradient(120deg,#667eea,#764ba2);color:#fff}
   nav{display:flex;justify-content:space-between;padding:12px 28px;background:rgba(255,255,255,0.06);backdrop-filter:blur(6px)}
@@ -15,57 +18,90 @@
   .btn{display:inline-block;margin-top:12px;padding:10px 14px;border-radius:10px;background:linear-gradient(90deg,#00c6ff,#0072ff);font-weight:800;color:#001;text-decoration:none}
 </style>
 </head>
+
 <body>
-  <nav>
-    <div class="logo">Edu2Job</div>
-    <ul>
-      <li><a href="dashboard.html">Home</a></li>
-      <li><a href="profile.html">Profile</a></li>
-      <li><a href="predict.html">Predict</a></li>
-      <li><a href="history.html">History</a></li>
-      <li><a href="#" id="logout">Logout</a></li>
-    </ul>
-  </nav>
 
-  <main class="wrap">
-    <img class="avatar" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="avatar">
-    <h1 id="greet">Hello, User 👋</h1>
-    <p id="sub">Welcome back — use the prediction tools to find job roles suited for you.</p>
+<nav>
+  <div class="logo">Edu2Job</div>
 
-    <div class="cards">
-      <div class="card">
-        <h3>Your Profile</h3>
-        <p>Manage & edit personal info</p>
-        <a class="btn" href="profile.html">View Profile</a>
-      </div>
-      <div class="card">
-        <h3>Job Prediction</h3>
-        <p>Run the ML model using your skills</p>
-        <a class="btn" href="predict.html">Predict Now</a>
-      </div>
-      <div class="card">
-        <h3>History</h3>
-        <p>See previous predictions</p>
-        <a class="btn" href="history.html">View History</a>
-      </div>
+  <ul>
+    <li><a href="/dashboard/">Home</a></li>
+    <li><a href="/profile/">Profile</a></li>
+    <li><a href="/predict/">Predict</a></li>
+    <li><a href="/history/">History</a></li>
+    <li><a href="#" id="logout">Logout</a></li>
+  </ul>
+</nav>
+
+<main class="wrap">
+
+  <img class="avatar"
+       src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+       alt="avatar">
+
+  <h1 id="greet">Hello, User 👋</h1>
+
+  <p id="sub">
+    Welcome back — use the prediction tools to find job roles suited for you.
+  </p>
+
+  <div class="cards">
+
+    <div class="card">
+      <h3>Your Profile</h3>
+      <p>Manage & edit personal info</p>
+      <a class="btn" href="/profile/">View Profile</a>
     </div>
-  </main>
+
+    <div class="card">
+      <h3>Job Prediction</h3>
+      <p>Run the ML model using your skills</p>
+      <a class="btn" href="/predict/">Predict Now</a>
+    </div>
+
+    <div class="card">
+      <h3>History</h3>
+      <p>See previous predictions</p>
+      <a class="btn" href="/history/">View History</a>
+    </div>
+
+  </div>
+
+</main>
 
 <script>
-const token = localStorage.getItem('token') || localStorage.getItem('access_token');
-const user_name = localStorage.getItem('user_name') || localStorage.getItem('userName') || 'User';
-if(!token){
-  alert('Please login first'); location.href='login.html';
-} else {
-  document.getElementById('greet').innerText = `Hello, ${user_name} 👋`;
+
+const token =
+  localStorage.getItem('token') ||
+  localStorage.getItem('access_token');
+
+const user_name =
+  localStorage.getItem('user_name') ||
+  localStorage.getItem('userName') ||
+  'User';
+
+if (!token) {
+  alert('Please login first');
+  location.href = '/';
 }
-document.getElementById('logout').addEventListener('click', (e)=>{
+else {
+  document.getElementById('greet').innerText =
+    `Hello, ${user_name} 👋`;
+}
+
+document.getElementById('logout').addEventListener('click', (e) => {
+
   e.preventDefault();
+
   localStorage.removeItem('token');
   localStorage.removeItem('access_token');
   localStorage.removeItem('user_name');
-  location.href='login.html';
+
+  location.href = '/';
+
 });
+
 </script>
+
 </body>
 </html>
