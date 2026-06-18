@@ -98,11 +98,11 @@
   <div class="nav">
     <div class="brand">Edu2Job</div>
     <div class="nav-links">
-      <a href="dashboard.html">Home</a>
-      <a href="profile.html">Profile</a>
-      <a href="predict.html" style="color:#fff;font-weight:800">Predict</a>
-      <a href="history.html">History</a>
-      <a href="login.html" onclick="logout()">Logout</a>
+      <a href="/dashboard/">Home</a>
+<a href="/profile/">Profile</a>
+<a href="/predict/">Predict</a>
+<a href="/history/">History</a>
+<a href="/" onclick="logout()">Logout</a>
     </div>
   </div>
 
@@ -464,8 +464,12 @@ window.addEventListener('load', ()=> {
 });
 
 /* logout helper (nav) */
-function logout(){ localStorage.clear(); sessionStorage.clear(); alert('Logged out'); window.location.href='login.html'; }
-
+function logout(){
+    localStorage.clear();
+    sessionStorage.clear();
+    alert('Logged out');
+    window.location.href='/';
+}
 </script>
 </body>
 </html>
